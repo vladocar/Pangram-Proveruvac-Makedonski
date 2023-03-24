@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pangram Analyzer</title>
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      textarea {
+        width: 100%;
+        height: 100px;
+      }
+
+      button {
+        margin-top: 10px;
+      }
+
+      #output {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Панграм проверувач</h1>
+    <p>Внесете го вашиот панграм:</p>
+    <textarea id="input"></textarea>
+    <button onclick="analyze()">Провери</button>
+    <p id="output"></p>
+    <script>
+      function analyze() {
+        const input = document.getElementById("input").value;
+        const letters = {};
+        for (let i = 0; i < input.length; i++) {
+          const letter = input[i].toLowerCase();
+          if (/[абвгдѓежзѕијклљмнњопрстќуфхцчџш]/.test(letter)) {
+            letters[letter] = true;
+          }
+        }
+        const missingLetters = [];
+        let pangramLetters = 0;
+        for (let letter of "абвгдѓежзѕијклљмнњопрстќуфхцчџш") {
+          if (letters[letter]) {
+            pangramLetters++;
+          } else {
+            missingLetters.push(letter);
+          }
+        }
+        const totalCharacters = input.replace(/[^абвгдѓежзѕијклљмнњопрстќуфхцчџш]/gi, "").length;
+        if (missingLetters.length === 0) {
+          document.getElementById("output").innerHTML = "Ова е панграм од " + pangramLetters + " букви, и вкупно " + totalCharacters + " карактери";
+        } else {
+          document.getElementById("output").innerHTML = "Букви кои недостигаат: " + missingLetters.join(", ");
+        }
+      }
+    </script>
+  </body>
+</html>
